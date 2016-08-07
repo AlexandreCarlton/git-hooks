@@ -5,4 +5,4 @@
 # This may lead us to importing modules from another branch.
 # We force a clean to avoid this bug.
 
-find -L . -name '*.pyc' -delete
+find . -name '*.pyc' -delete
