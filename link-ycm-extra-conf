@@ -1,0 +1,8 @@
+#!/bin/sh
+
+project_root="$(git rev-parse --show-toplevel)"
+
+if [   -e "${project_root}/CMakeLists.txt"     ] &&
+   [ ! -e "${project_root}/.ycm_extra_conf.py" ]; then
+  ln -s "${GIT_DIR}/hooks/.ycm_extra_conf.py" "${project_root}/.ycm_extra_conf.py"
+fi
