@@ -5,6 +5,8 @@
 
 # TODO: If there are other {pid}.tags files, kill these processes.
 
+set -e
+
 git_dir="$(git rev-parse --git-dir)"
 pid="$$"
 trap 'rm -f "${git_dir}/tags.${pid}"' EXIT INT TERM
