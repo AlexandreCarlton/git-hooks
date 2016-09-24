@@ -4,7 +4,7 @@ compilation database).
 
 To export a compilation database, include the following line in CMakeLists.txt:
 
-    set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
+    set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 """
 
 import os
