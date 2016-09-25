@@ -1,0 +1,44 @@
+#!/bin/sh
+
+COMMIT_MSG_FILENAME="${1}"
+
+main() {
+  local filename="${1}"
+  if [ -z "$(command -v aspell)" ]; then
+    printf 'Pleas install aspell to spell-check commit messages.\n' >&2
+  else
+    check_words "${filename}"
+  fi
+}
+
+check_words() {
+  local filename="${1}"
+  local words
+  words="$(filter_raw_commit_message "${filename}" | get_misspelt_words)"
+  if [ -n "${words}" ]; then
+    local word_list
+    word_list="$(printf '%s' "${words}" | sed "s/^/ - /")"
+
+    printf 'Misspelt words found:\n' >&2
+    printf '%s\n' "${word_list}" >&2
+    printf 'To fix these, use:\n' >&2
+    printf '\tgit commit --amend\n' >&2
+    printf '\n' >&2
+  fi
+}
+
+filter_raw_commit_message() {
+  local filename="${1}"
+  sed '/^# Do not touch the line above.$/,$d' "${filename}" |\
+    sed '/#.*/d'
+}
+
+get_misspelt_words() {
+  aspell list \
+    --mode=email \
+    --master=en_GB |\
+    sort |\
+    uniq
+}
+
+main "${COMMIT_MSG_FILENAME}"

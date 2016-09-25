@@ -1,0 +1,5 @@
+#!/bin/sh
+
+COMMIT_MSG_FILENAME="${1}"
+
+"${GIT_DIR}/hooks/spell-check-commit-message" "${COMMIT_MSG_FILENAME}"
