@@ -5,10 +5,10 @@ to automate mundane tasks.
 ## Setting up
 This is not compatible with the new `core.hooksPath` option (yet).
 
-```
-$ mkdir --parents "${HOME}/.config/git/templates"
-$ git config --global init.templatedir "${HOME}/.config/git/templates"
-$ git clone https://github.com/AlexandreCarlton/git-hooks.git "${HOME}/.config/git/templates/hooks"
+```bash
+mkdir --parents "${HOME}/.config/git/templates"
+git config --global init.templatedir "${HOME}/.config/git/templates"
+git clone https://github.com/AlexandreCarlton/git-hooks.git "${HOME}/.config/git/templates/hooks"
 ```
 
 ## clean-pyc-files
