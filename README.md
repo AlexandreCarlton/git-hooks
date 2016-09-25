@@ -2,6 +2,15 @@
 A personal set of [git hooks](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks)
 to automate mundane tasks.
 
+## Setting up
+This is not compatible with the new `core.hooksPath` option (yet).
+
+```
+$ mkdir --parents "${HOME}/.config/git/templates"
+$ git config --global init.templatedir "${HOME}/.config/git/templates"
+$ git clone https://github.com/AlexandreCarlton/git-hooks.git "${HOME}/.config/git/templates/hooks"
+```
+
 ## clean-pyc-files
 Deletes any `.pyc` files found in the project to force recompilation of `.py`
 files on a checkout.
