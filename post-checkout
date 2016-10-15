@@ -4,5 +4,5 @@
 # Note this also applies after a 'git clone'.
 
 "${GIT_DIR}/hooks/create-tags-file" &
-"${GIT_DIR}/hooks/clean-pyc-files" &
+"${GIT_DIR}/hooks/clean-python-bytecode-files" &
 "${GIT_DIR}/hooks/link-ycm-extra-conf" &

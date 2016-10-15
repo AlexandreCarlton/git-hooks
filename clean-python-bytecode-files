@@ -1,8 +1,9 @@
 #!/bin/sh
 
-# Cleans all *.pyc files.
+# Cleans all python bytecode files.
 # Switching branches may change .py files but won't touch the .pyc ones.
 # This may lead us to importing modules from another branch.
 # We force a clean to avoid this bug.
 
-find . -name '*.pyc' -delete
+find . -type f -name '*.py[co]' -delete \
+   -or -type d -name '__pycache__' -delete

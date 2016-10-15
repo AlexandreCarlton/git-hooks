@@ -11,9 +11,9 @@ git config --global init.templatedir "${HOME}/.config/git/templates"
 git clone https://github.com/AlexandreCarlton/git-hooks.git "${HOME}/.config/git/templates/hooks"
 ```
 
-## clean-pyc-files
-Deletes any `.pyc` files found in the project to force recompilation of `.py`
-files on a checkout.
+## clean-python-bytecode-files
+Deletes any `.pyc`, `.pyo` and `__pycache__` files found in the project to
+force recompilation of `.py` files on a checkout.
 
 ## create-tags-file
 "Adapted" from [Effortless Ctags with Git](https://tbaggery.com/2011/08/08/effortless-ctags-with-git.html),
