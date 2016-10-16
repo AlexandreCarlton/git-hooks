@@ -4,4 +4,4 @@ COMMIT_MESSAGE_FILEPATH="${1}"
 COMMIT_TYPE="${2}"
 COMMIT_SHA="${3}"
 
-"$(dirname "${0}")/insert-jira-ticket" "${COMMIT_MESSAGE_FILEPATH}"
+"$(dirname "${0}")/scripts/insert-jira-ticket" "${COMMIT_MESSAGE_FILEPATH}"

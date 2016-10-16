@@ -2,4 +2,4 @@
 
 COMMIT_MSG_FILENAME="${1}"
 
-"$(dirnme "${0}")/spell-check-commit-message" "${COMMIT_MSG_FILENAME}"
+"$(dirname "${0}")/scripts/spell-check-commit-message" "${COMMIT_MSG_FILENAME}"
