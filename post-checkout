@@ -3,6 +3,8 @@
 # This hook is invoked after 'git checkout' succeeds.
 # Note this also applies after a 'git clone'.
 
-"${GIT_DIR}/hooks/create-tags-file" &
-"${GIT_DIR}/hooks/clean-python-bytecode-files" &
-"${GIT_DIR}/hooks/link-ycm-extra-conf" &
+hooks_path="$(git config core.hooksPath || echo "${GIT_DIR}/hooks")"
+
+"${hooks_path}/create-tags-file" &
+"${hooks_path}/clean-python-bytecode-files" &
+"${hooks_path}/link-ycm-extra-conf" &

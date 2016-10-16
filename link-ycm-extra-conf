@@ -7,8 +7,9 @@
 # CMakeLists.txt file.
 
 project_root="$(git rev-parse --show-toplevel)"
+hooks_path="$(git config core.hooksPath || echo "${GIT_DIR}/hooks")"
 
 if [   -e "${project_root}/CMakeLists.txt"     ] &&
    [ ! -e "${project_root}/.ycm_extra_conf.py" ]; then
-  ln -s "${GIT_DIR}/hooks/ycm_extra_conf.py" "${project_root}/.ycm_extra_conf.py"
+  ln -s "${hooks_path}/ycm_extra_conf.py" "${project_root}/.ycm_extra_conf.py"
 fi

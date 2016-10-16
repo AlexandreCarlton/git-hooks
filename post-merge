@@ -3,4 +3,6 @@
 # Invoked on a git merge
 # This also includes a git pull with default settings
 
-"${GIT_DIR}/hooks/create-tags-file" &
+hooks_path="$(git config core.hooksPath || echo "${GIT_DIR}/hooks")"
+
+"${hooks_path}/create-tags-file" &

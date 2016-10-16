@@ -6,8 +6,10 @@
 
 COMMAND_USED="$1"
 
+hooks_path="$(git config core.hooksPath || echo "${GIT_DIR}/hooks")"
+
 case "${COMMAND_USED}" in
   rebase)
-    exec "${GIT_DIR}/hooks/post-merge"
+    exec "${hooks_path}/post-merge"
     ;;
 esac
