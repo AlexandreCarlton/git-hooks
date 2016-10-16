@@ -1,6 +1,8 @@
 #!/bin/sh
 
-# Attempts to prepend the JIRA ticket number generated from the branch.
+# Attempts to append the JIRA ticket number generated from the branch to the
+# end of the commit message.
+
 
 FILEPATH="${1}"
 
@@ -15,10 +17,15 @@ get_ticket_from_branch() {
 
 insert_ticket() {
   local filepath="${1}"
-  local branch="$(git symbolic-ref --short HEAD)"
-  local ticket="$(get_ticket_from_branch "${branch}")"
+  local branch
+  local ticket
+
+  branch="$(git symbolic-ref --short HEAD)"
+  ticket="$(get_ticket_from_branch "${branch}")"
   if [ -n "${ticket}" ]; then
-    sed --in-place "s/# References:/References "${ticket}"/" "${filepath}"
+    local pattern='# Please enter the commit message for your changes.'
+    local message="References ${ticket}"
+    sed --in-place "/${pattern}/i${message}\n" "${filepath}"
   fi
 }
 
