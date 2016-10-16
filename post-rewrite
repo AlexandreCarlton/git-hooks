@@ -6,7 +6,7 @@
 
 COMMAND_USED="$1"
 
-hooks_path="$(git config core.hooksPath || echo "${GIT_DIR}/hooks")"
+hooks_path="$(git config --path core.hooksPath || echo "${GIT_DIR}/hooks")"
 
 case "${COMMAND_USED}" in
   rebase)

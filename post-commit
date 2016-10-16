@@ -2,5 +2,5 @@
 
 # This hook is invoked after 'git commit' succeeds.
 
-hooks_path="$(git config core.hooksPath || echo "${GIT_DIR}/hooks")"
+hooks_path="$(git config --path core.hooksPath || echo "${GIT_DIR}/hooks")"
 "${hooks_path}/create-tags-file" &

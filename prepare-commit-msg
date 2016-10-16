@@ -4,5 +4,5 @@ COMMIT_MESSAGE_FILEPATH="${1}"
 COMMIT_TYPE="${2}"
 COMMIT_SHA="${3}"
 
-hooks_path="$(git config core.hooksPath || echo "${GIT_DIR}/hooks")"
+hooks_path="$(git config --path core.hooksPath || echo "${GIT_DIR}/hooks")"
 "${hooks_path}/insert-jira-ticket" "${COMMIT_MESSAGE_FILEPATH}"
