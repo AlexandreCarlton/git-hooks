@@ -1,8 +1,12 @@
 #!/bin/sh
 
-# Attempts to append the JIRA ticket number generated from the branch to the
-# end of the commit message.
-
+# Extracts the JIRA ticket identifier from the branch and substitutes it into
+# a special expression in the message template if present.
+# The syntax is:
+#   {{.*TICKET.*}}
+# where characters before and after 'TICKET' are preserved.
+# For example, {{[TICKET] }} for ISSUE-123 would translate to '[ISSUE-123] '.
+# If no ticket can be extracted, the expressions are removed.
 
 FILEPATH="${1}"
 
@@ -19,13 +23,14 @@ insert_ticket() {
   local filepath="${1}"
   local branch
   local ticket
+  local pattern="\\{\\{(.*)TICKET(.*)\\}\\}"
 
   branch="$(git symbolic-ref --short HEAD)"
   ticket="$(get_ticket_from_branch "${branch}")"
   if [ -n "${ticket}" ]; then
-    local pattern='# Please enter the commit message for your changes.'
-    local message="References ${ticket}"
-    sed --in-place "/${pattern}/i${message}\n" "${filepath}"
+    sed --regexp-extended --in-place "s/${pattern}/\\1${ticket}\\2/" "${filepath}"
+  else
+    sed --regexp-extended --in-place "s/${pattern}//" "${filepath}"
   fi
 }
 
