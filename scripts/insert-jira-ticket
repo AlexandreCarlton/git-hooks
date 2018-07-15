@@ -19,19 +19,37 @@ get_ticket_from_branch() {
     sed --regexp-extended --quiet "s:${branch_pattern}:${ticket_dest}:p"
 }
 
+
 insert_ticket() {
   local filepath="${1}"
   local branch
   local ticket
+  local last_line_number
   local pattern="\\{\\{(.*)TICKET(.*)\\}\\}"
 
   branch="$(git symbolic-ref --short HEAD)"
   ticket="$(get_ticket_from_branch "${branch}")"
+  last_line_number="$(get_commit_message_length "${filepath}")"
+
   if [ -n "${ticket}" ]; then
-    sed --regexp-extended --in-place "s/${pattern}/\\1${ticket}\\2/" "${filepath}"
+    sed --regexp-extended --in-place "1,${last_line_number}s/${pattern}/\\1${ticket}\\2/" "${filepath}"
   else
-    sed --regexp-extended --in-place "s/${pattern}//" "${filepath}"
+    sed --regexp-extended --in-place "1,${last_line_number}s/${pattern}//" "${filepath}"
   fi
+}
+
+# We don't want to edit the patch itself, so we restrict ourselves to editing
+# the commit message.
+get_commit_message_length() {
+  local filepath="${1}"
+  grep \
+    --fixed-strings \
+    --line-number \
+    '^# Please enter the commit message for your changes.' \
+    "${filepath}" \
+    | cut \
+      --delimiter=':' \
+      --fields=1
 }
 
 insert_ticket "${FILEPATH}"
