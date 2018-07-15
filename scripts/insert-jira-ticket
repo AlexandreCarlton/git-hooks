@@ -43,7 +43,6 @@ insert_ticket() {
 get_commit_message_length() {
   local filepath="${1}"
   grep \
-    --fixed-strings \
     --line-number \
     '^# Please enter the commit message for your changes.' \
     "${filepath}" \
