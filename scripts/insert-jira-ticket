@@ -38,17 +38,24 @@ insert_ticket() {
   fi
 }
 
-# We don't want to edit the patch itself, so we restrict ourselves to editing
-# the commit message.
 get_commit_message_length() {
   local filepath="${1}"
-  grep \
+  local match
+  match=$(grep \
+    --extended-regexp \
     --line-number \
-    '^# Please enter the commit message for your changes.' \
+    '^# -+ >8' \
     "${filepath}" \
     | cut \
       --delimiter=':' \
-      --fields=1
+      --fields=1)
+  if [ -n "${match}" ]; then
+    printf '%s\n' "${match}"
+  else
+    printf 'Could not find scissor (--->8---) - please inspect message.\n' >&2
+    wc --lines "${filepath}" \
+      | cut -f1
+  fi
 }
 
 insert_ticket "${FILEPATH}"
