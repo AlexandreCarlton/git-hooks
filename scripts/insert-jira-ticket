@@ -54,7 +54,7 @@ get_commit_message_length() {
   else
     printf 'Could not find scissor (--->8---) - please inspect message.\n' >&2
     wc --lines "${filepath}" \
-      | cut -f1
+      | awk '{ print $1 }'
   fi
 }
 
