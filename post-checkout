@@ -5,4 +5,3 @@
 
 "$(dirname "${0}")/scripts/create-tags-file" &
 "$(dirname "${0}")/scripts/clean-python-bytecode-files" &
-"$(dirname "${0}")/scripts/link-ycm-extra-conf" &

@@ -55,10 +55,3 @@ The syntax is:
 where characters before and after 'TICKET' are preserved.
 For example, `{{[TICKET] }}` for `ISSUE-123` would translate to `[ISSUE-123] `.
 If no ticket can be extracted, the expressions are removed.
-
-### link-ycm-extra-conf
-Creates a symbolic link `.ycm_extra_conf.py` to the one in this repository
-should there exist a `CMakeLists.txt` file in the project's root.
-
-This configuration file is optimised to analyse the `compile_commands.json`
-generated in the `build` folder of the project.
