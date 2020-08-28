@@ -8,54 +8,22 @@
 # For example, {{[TICKET] }} for ISSUE-123 would translate to '[ISSUE-123] '.
 # If no ticket can be extracted, the expressions are removed.
 
-FILEPATH="${1}"
+TICKET_TEMPLATE="\\{\\{(.*)TICKET(.*)\\}\\}"
 
-# Returns empty string on failure
-get_ticket_from_branch() {
-  local branch="${1}"
-  local branch_pattern='^([[:lower:]]{1,30}/)?([[:upper:]]{2,}-[[:digit:]]+)(-[[:alnum:]]+)+$'
-  local ticket_dest='\2'
-  printf '%s' "${branch}" |\
-    sed --regexp-extended --quiet "s:${branch_pattern}:${ticket_dest}:p"
-}
+filepath="$1"
 
+# We only want to substitute text in the commit message (not the contents of the commit)
+# As such, we determine the available area we can modify.
+last_line_number=$(grep -En '^# -+ >8' "$filepath" | cut -d: -f1)
+if [ -z "${last_line_number}" ]; then
+  echo "Message is not a standard commit message, not substituting ticket." >&2
+  exit 0
+fi
 
-insert_ticket() {
-  local filepath="${1}"
-  local branch
-  local ticket
-  local last_line_number
-  local pattern="\\{\\{(.*)TICKET(.*)\\}\\}"
-
-  branch="$(git symbolic-ref --short HEAD)"
-  ticket="$(get_ticket_from_branch "${branch}")"
-  last_line_number="$(get_commit_message_length "${filepath}")"
-
-  if [ -n "${ticket}" ]; then
-    sed --regexp-extended --in-place "1,${last_line_number}s/${pattern}/\\1${ticket}\\2/" "${filepath}"
-  else
-    sed --regexp-extended --in-place "1,${last_line_number}s/${pattern}//" "${filepath}"
-  fi
-}
-
-get_commit_message_length() {
-  local filepath="${1}"
-  local match
-  match=$(grep \
-    --extended-regexp \
-    --line-number \
-    '^# -+ >8' \
-    "${filepath}" \
-    | cut \
-      --delimiter=':' \
-      --fields=1)
-  if [ -n "${match}" ]; then
-    printf '%s\n' "${match}"
-  else
-    printf 'Could not find scissor (--->8---) - please inspect message.\n' >&2
-    wc --lines "${filepath}" \
-      | awk '{ print $1 }'
-  fi
-}
-
-insert_ticket "${FILEPATH}"
+branch=$(git symbolic-ref --short HEAD)
+ticket=$(echo -n "$branch" | sed -rn "s|^([a-z-]+/)?([A-Z]+-[0-9]+)(-.*)?$|\2|p")
+if [ -n "${ticket}" ]; then
+  sed -ri "1,${last_line_number}s/$TICKET_TEMPLATE/\\1$ticket\\2/" "$filepath"
+else
+  sed -ri "1,${last_line_number}s/$TICKET_TEMPLATE//" "$filepath"
+fi
