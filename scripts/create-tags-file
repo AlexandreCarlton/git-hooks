@@ -3,6 +3,9 @@
 # Create a tags file in .git for the versioned files.
 # This .git/tags file will automatically be picked up by fugitive.vim.
 
+# TODO: Restore this once we get integration working with LSP.
+return
+
 # TODO: If there are other {pid}.tags files, kill these processes.
 
 set -e
