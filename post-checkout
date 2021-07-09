@@ -3,5 +3,6 @@
 # This hook is invoked after 'git checkout' succeeds.
 # Note this also applies after a 'git clone'.
 
-"$(dirname "${0}")/scripts/create-tags-file" &
-"$(dirname "${0}")/scripts/clean-python-bytecode-files" &
+for script in "$(dirname "$0")"/post-checkout.d/*; do
+  "$script" &
+done
